@@ -6,5 +6,5 @@
 ![image info](example-3.svg "SVG output of wye motor")
 ![image info](example-4.svg "SVG output of wye motor with cute inductors")
 
-Examples of a CircuiTikz subcircuit demonstrating (wye) three-phase resistive
+Examples of a CircuiTikz subcircuits demonstrating three-phase (wye) resistive
 and inductive loads.
