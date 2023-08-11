@@ -1,0 +1,112 @@
+\documentclass[multi, border=25]{standalone}
+\usepackage[siunitx]{circuitikz}
+
+\standaloneenv{circuitikz}
+
+\ctikzsubcircuitdef{resistivewye}{u, v, w, n}{
+    coordinate (#1-center)
+    (#1-center) node[circ] (#1-n) {}
+    \foreach[count=\i] \x  in {u, v, w}{
+        (#1-center) + (\fpeval{\i*120.0}:4) node[circ] (#1-\x) {}
+        (#1-\x) to[
+            R,
+            l=$R_{\x}$,
+            v=$v_{\x}$,
+            i=$i_{\x}$,
+            name=#1-R\x
+        ] (#1-n)
+    }
+}
+
+\ctikzsubcircuitactivate{resistivewye}
+
+\ctikzsubcircuitdef{inductivewye}{u, v, w, n}{
+    coordinate (#1-center)
+    (#1-center) node[circ] (#1-n) {}
+    \foreach[count=\i] \x in {u, v, w}{
+        (#1-center) + (\fpeval{\i*120.0}:4) node[circ] (#1-\x) {}
+        (#1-\x) to[
+            L,
+            l=$L_{\x}$,
+            v=$v_{\x}$,
+            i=$i_{\x}$,
+            name=#1-L\x
+        ] (#1-n)
+    }
+}
+
+\ctikzsubcircuitdef{motorwye}{u, v, w, n}{
+    coordinate (#1-center)
+    (#1-center) node[circ] (#1-n) {}
+    \foreach[count=\i] \x in {u, v, w}{
+        (#1-center) + (\fpeval{\i*120.0}:4) node[circ] (#1-\x) {}
+        (#1-\x) to[
+            L,
+            l=$L_{\x}$,
+            v=$V_{\x}$,
+            i=$i_{\x}$,
+            name=#1-L\x,
+            label distance=4
+        ] (#1-n)
+        (#1-L\x.core west) -- (#1-L\x.core east)
+    }
+    (#1-center) + (30:0.35) node[
+        currarrow,
+        rotate=-45
+    ] (#1-arc) {}
+    (#1-arc) arc[
+        start angle=30,
+        end angle=330,
+        x radius=0.35,
+        y radius=0.35
+    ]
+}
+
+\ctikzsubcircuitdef{cutemotorwye}{u, v, w, n}{
+    coordinate (#1-center)
+    (#1-center) node[circ] (#1-n) {}
+    \foreach[count=\i] \x in {u, v, w}{
+        (#1-center) + (\fpeval{\i*120.0}:4) node[circ] (#1-\x) {}
+        (#1-\x) to[
+            cute choke,
+            twolineschoke,
+            l=$L_{\x}$,
+            v=$V_{\x}$,
+            i=$i_{\x}$,
+            name=#1-L\x,
+            label distance=4
+        ] (#1-n)
+    }
+    (#1-center)  + (30:0.35) node[
+        currarrow,
+        rotate=-45
+    ] (#1-arc) {}
+    (#1-arc) arc[
+        start angle=30,
+        end angle=330,
+        x radius=0.35,
+        y radius=0.35
+    ]
+}
+
+\ctikzsubcircuitactivate{cutemotorwye}
+
+\begin{document}
+
+\begin{circuitikz}[american]
+    \draw(0,0) \resistivewye{load1}{};
+\end{circuitikz}
+
+\begin{circuitikz}[american]
+    \draw(0,0) \inductivewye{load2}{};
+\end{circuitikz}
+
+\begin{circuitikz}[american]
+    \draw(0,0) \motorwye{load3}{};
+\end{circuitikz}
+
+\begin{circuitikz}[american]
+    \draw(0,0) \cutemotorwye{load4}{};
+\end{circuitikz}
+
+\end{document}
