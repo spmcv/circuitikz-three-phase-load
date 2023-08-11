@@ -4,7 +4,7 @@ tex:
 	latexmk example.tex
 
 svg:
-	dvisvgm example.dvi
+	dvisvgm --page=1-4 example.dvi
 
 clean:
 	latexmk -c 
